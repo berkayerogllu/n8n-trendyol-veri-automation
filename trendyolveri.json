@@ -9,7 +9,7 @@
         0,
         0
       ],
-      "id": "c21c8710-a2b2-4e23-941f-731b9f46e8e6",
+      "id": "af6e5fd6-1f85-413b-95ab-8ef454489a76",
       "name": "When clicking ‘Execute workflow’"
     },
     {
@@ -32,7 +32,7 @@
         464,
         0
       ],
-      "id": "2e0102f9-3f5f-4ad8-b7e0-59c1cdaa2aba",
+      "id": "07509943-b6e6-4e1a-9d7e-5338fa618db9",
       "name": "set page"
     },
     {
@@ -45,7 +45,7 @@
         736,
         0
       ],
-      "id": "26c42ec6-0585-4985-acb6-d9a69d9b1987",
+      "id": "8539176b-7ce6-4892-8bb0-3126eb850dd3",
       "name": "create page items"
     },
     {
@@ -59,12 +59,12 @@
         976,
         0
       ],
-      "id": "a9aed679-8cef-4245-b72e-46e44f58d381",
+      "id": "4d5dfabb-e5d0-4a05-903e-5bf061742717",
       "name": "HTTP Request"
     },
     {
       "parameters": {
-        "jsCode": "// ana liste oluşturma\nconst allExtractedProducts = [];\nconst baseUrl = \"https://cdn.dsmcdn.com/mnresize/620/920\";\n\n// döngü\nfor (const item of items) {\n  \n  const productsInThisBatch = item.json.result.contents;\n  \n  if (productsInThisBatch && productsInThisBatch.length > 0) {\n    for (const product of productsInThisBatch) {\n      \n      const variantInfo = product.merchantListings?.[0]?.variants?.[0];\n\n      let imageUrls = []; \n      const imagePaths = product.contents; \n      if (imagePaths && imagePaths.length > 0) {\n        imageUrls = imagePaths.map(imagePath => baseUrl + imagePath);\n      }\n\n      //promotion\n      let discountInfos = [];\n      if (product.merchantListings && product.merchantListings.length > 0) {\n        const promotions = product.merchantListings[0].promotions;\n        if (promotions && promotions.length > 0) {\n          discountInfos = promotions.map(promo => ({\n            name: promo.name,\n            shortName: promo.shortName\n          }));\n        }\n      }\n\n      //product-url\n      const brandNameForUrl = product.brand?.name;\n      const productNameForUrl = product.name;\n      const productId = product.id;\n      const merchantId = product.merchantListings?.[0]?.merchant?.id;\n\n      let productUrl = null;\n      if (brandNameForUrl && productNameForUrl && productId && merchantId) {\n        const slugifiedProductName = productNameForUrl\n          .toLowerCase()\n          .replace(/ /g, '-')\n          .replace(/[^a-z0-9-]/g, '');\n        \n        const slugifiedBrandName = brandNameForUrl.toLowerCase().replace(/ /g, '-');\n        \n        productUrl = `https://www.trendyol.com/${slugifiedBrandName}/${slugifiedProductName}-p-${productId}?merchantId=${merchantId}`;\n      }\n      \n    \n      const popularityText = `Favori: ${product.socialProof?.favoriteCount?.count}, Görüntülenme: ${product.socialProof?.pageViewCount?.count}`;\n      const shippingInfoText = (variantInfo?.freeCargo === true) ? \"Ücretsiz Kargo\" : \"Ücretli Kargo\";\n\n      const newObject = {\n        brand: product.brand?.name,\n        product_name: product.name,\n        product_url: productUrl,\n        image_url: imageUrls, \n        // DÜZELTME: Tek bir resim yerine, tüm URL'lerin listesini atıyoruz.\n        price: variantInfo?.price?.originalPrice,\n        discounted_price: variantInfo?.price?.discountedPrice,\n        discount_info: discountInfos,\n        shipping_info: shippingInfoText,\n        rating: product.ratingScore?.averageRating,\n        review_count: product.ratingScore?.totalCount,\n        popularity: popularityText\n      };\n      \n      allExtractedProducts.push({ json: newObject });\n    }\n  }\n}\n\n// Tüm verileri içeren ana listeyi döndürüyoruz.\nreturn allExtractedProducts;"
+        "jsCode": "// ana liste oluşturma\nconst allExtractedProducts = [];\nconst baseUrl = \"https://cdn.dsmcdn.com/mnresize/620/920\";\n\n// döngü\nfor (const item of items) {\n  \n  const productsInThisBatch = item.json.result.contents;\n  \n  if (productsInThisBatch && productsInThisBatch.length > 0) {\n    for (const product of productsInThisBatch) {\n      \n      const variantInfo = product.merchantListings?.[0]?.variants?.[0];\n\n      let imageUrls = []; \n      const imagePaths = product.contents; \n      if (imagePaths && imagePaths.length > 0) {\n        imageUrls = imagePaths.map(imagePath => baseUrl + imagePath);\n      }\n\n      //promotion\n      let discountInfos = [];\n      if (product.merchantListings && product.merchantListings.length > 0) {\n        const promotions = product.merchantListings[0].promotions;\n        if (promotions && promotions.length > 0) {\n          discountInfos = promotions.map(promo => ({\n            name: promo.name,\n            shortName: promo.shortName\n          }));\n        }\n      }\n\n      //product-url\n      const brandNameForUrl = product.brand?.name;\n      const productNameForUrl = product.name;\n      const productId = product.id;\n      const merchantId = product.merchantListings?.[0]?.merchant?.id;\n\n      let productUrl = null;\n      if (brandNameForUrl && productNameForUrl && productId && merchantId) {\n        const slugifiedProductName = productNameForUrl\n          .toLowerCase()\n          .replace(/ /g, '-')\n          .replace(/[^a-z0-9-]/g, '');\n        \n        const slugifiedBrandName = brandNameForUrl.toLowerCase().replace(/ /g, '-');\n        \n        productUrl = `https://www.trendyol.com/${slugifiedBrandName}/${slugifiedProductName}-p-${productId}?merchantId=${merchantId}`;\n      }\n      \n    \n      const popularityText = `Favori: ${product.socialProof?.favoriteCount?.count}, Görüntülenme: ${product.socialProof?.pageViewCount?.count}`;\n      const shippingInfoText = (variantInfo?.freeCargo === true) ? \"Ücretsiz Kargo\" : \"Ücretli Kargo\";\n\n      const newObject = {\n        brand: product.brand?.name,\n        product_name: product.name,\n        product_url: productUrl,\n        image_url: imageUrls, \n        price: variantInfo?.price?.originalPrice,\n        discounted_price: variantInfo?.price?.discountedPrice,\n        discount_info: discountInfos,\n        shipping_info: shippingInfoText,\n        rating: product.ratingScore?.averageRating,\n        review_count: product.ratingScore?.totalCount,\n        popularity: popularityText\n      };\n      \n      allExtractedProducts.push({ json: newObject });\n    }\n  }\n}\n\n// Tüm verileri içeren ana listeyi döndürüyoruz.\nreturn allExtractedProducts;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -72,7 +72,7 @@
         1184,
         0
       ],
-      "id": "9d9c836f-7a13-45e5-a67e-979c6bf2946d",
+      "id": "834b18de-91fe-44e8-819d-37bbf4059241",
       "name": "Code in JavaScript",
       "executeOnce": true
     },
@@ -216,7 +216,7 @@
         1408,
         0
       ],
-      "id": "f1e3c107-dc42-4683-83a8-5458fd34344e",
+      "id": "6d420998-f0c1-41b6-8d66-4b4e7b879161",
       "name": "Append or update row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -248,7 +248,7 @@
         208,
         0
       ],
-      "id": "9dfa4e6b-1528-46bc-a5a6-59aebf7b90ea",
+      "id": "44c64dab-9011-4cb5-adde-90f95925cd72",
       "name": "Clear sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -331,10 +331,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c250e5c3-49b2-4737-95c0-1ec7012aa9ac",
+  "versionId": "538fcde2-b841-4094-b628-8201e2be347d",
   "meta": {
     "instanceId": "cc1d5867f7d008853e46ed1b24e1bd1fc41ed59c201c4d91bf4a97d1d4a53d2a"
   },
-  "id": "UGYACOPEUi73Of7X",
+  "id": "VZusFE3iboHQi01z",
   "tags": []
 }
